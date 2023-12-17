@@ -43,7 +43,7 @@ class ProductService extends DioConfig {
   /// Get product by id from API
   Future<List<Product>> getProduct(int id) async {
     try {
-      final response = await Dio().get<List<Product>>(
+      final response = await Dio().get<Map<String, dynamic>>(
         '$_baseUrl/products/$id',
         options: Options(
           sendTimeout: const Duration(seconds: 5),
@@ -53,12 +53,12 @@ class ProductService extends DioConfig {
 
       switch (response.statusCode) {
         case HttpStatus.ok:
-          return [Product.fromJson(response.data! as Map<String, dynamic>)];
+          return [Product.fromJson(response.data!)];
         default:
           return [];
       }
-    } catch (e) {
-      throw Error();
+    } on NetworkError catch (e) {
+      throw NetworkError(e.toString());
     }
   }
 }
