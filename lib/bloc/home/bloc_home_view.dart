@@ -74,7 +74,7 @@ class _BlocHomeViewState extends State<BlocHomeView> {
         return GestureDetector(
           onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(
+              MaterialPageRoute<Widget>(
                   builder: (_) => BlocProductDetailView(
                         productId: state.products[index].id,
                       ))),

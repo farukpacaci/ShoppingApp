@@ -4,13 +4,13 @@ import 'package:shop_app/bloc/home/bloc_home_view.dart';
 
 Future<void> main() async {
   await dotenv.load();
-  runApp(const MyApp());
+  runApp(const _MyApp());
 }
 
 /// Main app widget
-class MyApp extends StatelessWidget {
+class _MyApp extends StatelessWidget {
   /// Constructor
-  const MyApp({super.key});
+  const _MyApp();
 
   @override
   Widget build(BuildContext context) {
