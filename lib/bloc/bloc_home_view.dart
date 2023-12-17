@@ -28,11 +28,11 @@ class _BlocHomeViewState extends State<BlocHomeView> {
   Widget build(BuildContext context) {
     return BlocProvider<HomeCubit>(
       create: (BuildContext context) => HomeCubit(ProductService()),
-      child: buildScaffold(),
+      child: buildScaffold(context),
     );
   }
 
-  Scaffold buildScaffold() {
+  Scaffold buildScaffold(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Shopping App'),
@@ -53,7 +53,7 @@ class _BlocHomeViewState extends State<BlocHomeView> {
           } else if (state is HomeLoading) {
             return const CustomLoading();
           } else if (state is HomeLoaded) {
-            return buildLoaded(state);
+            return buildLoaded(context, state);
           } else if (state is HomeError) {
             return CustomError(message: state.message);
           } else {
@@ -64,14 +64,72 @@ class _BlocHomeViewState extends State<BlocHomeView> {
     );
   }
 
-  ListView buildLoaded(HomeLoaded state) {
+  ListView buildLoaded(BuildContext context, HomeLoaded state) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return ListView.builder(
       itemCount: state.products.length,
+      padding: EdgeInsets.zero,
       itemBuilder: (BuildContext context, int index) {
-        return ListTile(
-          title: Text(state.products[index].title),
-          subtitle: Text(state.products[index].description),
-          leading: Image.network(state.products[index].image),
+        return Container(
+          height: screenWidth * 0.3 + 16,
+          margin: const EdgeInsets.symmetric(horizontal: 8),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  // Image of the product
+                  Container(
+                    width: screenWidth * 0.3,
+                    height: screenWidth * 0.3,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.25),
+                          offset: const Offset(0, 4),
+                          blurRadius: 4,
+                          spreadRadius: 0,
+                          blurStyle: BlurStyle.outer,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(
+                        image: NetworkImage(state.products[index].image),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  // Product name and price
+                  Container(
+                    width: screenWidth * 0.6,
+                    margin: const EdgeInsets.only(left: 8),
+                    child: Column(
+                      children: [
+                        Text(
+                          state.products[index].title,
+                          maxLines: 2,
+                          style:
+                              Theme.of(context).textTheme.bodyLarge!.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                        ),
+                        Text(
+                          state.products[index].description,
+                          maxLines: 3,
+                          style:
+                              Theme.of(context).textTheme.bodySmall!.copyWith(
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const Divider(),
+            ],
+          ),
         );
       },
     );

@@ -44,7 +44,7 @@ class ProductService extends DioConfig {
   Future<List<Product>> getProduct(int id) async {
     try {
       final response = await Dio().get<List<Product>>(
-        'https://fakestoreapi.com/products/$id',
+        '$_baseUrl/products/$id',
         options: Options(
           sendTimeout: const Duration(seconds: 5),
           receiveTimeout: const Duration(seconds: 5),
