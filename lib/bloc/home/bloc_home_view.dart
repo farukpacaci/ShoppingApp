@@ -73,11 +73,13 @@ class _BlocHomeViewState extends State<BlocHomeView> {
       itemBuilder: (BuildContext context, int index) {
         return GestureDetector(
           onTap: () => Navigator.push(
-              context,
-              MaterialPageRoute<Widget>(
-                  builder: (_) => BlocProductDetailView(
-                        productId: state.products[index].id,
-                      ))),
+            context,
+            MaterialPageRoute<Widget>(
+              builder: (_) => BlocProductDetailView(
+                productId: state.products[index].id,
+              ),
+            ),
+          ),
           child: Container(
             height: screenWidth * 0.3 + 16,
             margin: const EdgeInsets.symmetric(horizontal: 8),
@@ -96,7 +98,6 @@ class _BlocHomeViewState extends State<BlocHomeView> {
                             color: Colors.black.withOpacity(0.25),
                             offset: const Offset(0, 4),
                             blurRadius: 4,
-                            spreadRadius: 0,
                             blurStyle: BlurStyle.outer,
                           ),
                         ],
